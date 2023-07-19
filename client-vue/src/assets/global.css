@@ -1,0 +1,14 @@
+body {
+  background-color: aquamarine;
+}
+
+#map {
+  height: 400px;
+  margin-top: 10vh;
+}
+
+.select-button{
+    max-width: 150px;
+    background-color: aqua;
+    border-radius: 4px;
+}
