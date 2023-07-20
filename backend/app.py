@@ -9,10 +9,10 @@ from routes.places import places_bp
 app = Flask(__name__)
 
 logging.basicConfig(
-    level=logging.DEBUG,  # Set the desired log level
+    level=logging.DEBUG,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.StreamHandler(sys.stdout)  # Output logs to the console
+        logging.StreamHandler(sys.stdout)  # logs to the console
     ]
 )
 

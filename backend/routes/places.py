@@ -2,6 +2,7 @@ from flask import Blueprint, request
 import requests
 import os
 from dotenv import load_dotenv
+import logging
 
 places_bp = Blueprint('places', __name__)
 load_dotenv()
@@ -18,17 +19,25 @@ def get_selected_places():
     headers = {
         'apiKey': api_key
     }
+
+    logging.info(f"Making API request to URL: {url}")
+
     response = requests.get(url, headers=headers)
     data = response.json()
-    # print(f"API Response: {response.text}")
+
     if 'places' in data and len(data['places']) > 0:
         places = data['places']
         coordinates = []
         for location in places:
             longitude = location['referencePosition']['longitude']
             latitude = location['referencePosition']['latitude']
-            coordinates.append({'name': location['formattedAddress'], 'lat': latitude, 'lon': longitude})
-            print("Coordinates", coordinates)
-        return {'coordinates': coordinates}  # Return a valid response with the coordinates
+            coordinates.append(
+                {'name': location['formattedAddress'], 'lat': latitude, 'lon': longitude})
+            logging.debug(f"Coordinates: {coordinates}")
+
+            logging.info(
+                f"Found {len(coordinates)} places near coordinates: lat={position_latitude}, lon={position_longitude}")
+        return {'coordinates': coordinates}
     else:
-        return {'coordinates': []}  # Return an empty array if no places are found
+        logging.info("No places found near the given coordinates.")
+        return {'coordinates': []}
