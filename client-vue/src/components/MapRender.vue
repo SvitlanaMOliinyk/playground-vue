@@ -35,6 +35,7 @@ export default defineComponent({
         [this.position.latitude, this.position.longitude],
         13
       );
+       console.log("RenderMap component")
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "Map data &copy; OpenStreetMap contributors",
@@ -42,8 +43,11 @@ export default defineComponent({
       }).addTo(map);
 
       this.markers.forEach((marker: ResponseObject) => {
-        const { latitude, longitude } = marker.referencePosition;
-        L.marker([latitude, longitude]).addTo(map);
+         const { latitude, longitude } = marker.referencePosition;
+        const markerPopupContent = `<b>${marker.name}</b>`;
+        L.marker([latitude, longitude])
+          .addTo(map)
+          .bindPopup(markerPopupContent);
       });
     },
   },

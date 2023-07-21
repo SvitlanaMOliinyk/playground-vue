@@ -1,10 +1,16 @@
 <template>
   <div class="app">
     <button @click="handleClick" class="select-button">Choose location</button>
-    <StartMap @position-updated="handlePositionUpdated" />
-    <SelectPlaces v-if="isSelected" @response-updated="handleResponseData" :position="position"/>
+    <StartMap
+     v-if="!isSelectedSecond"
+    @position-updated="handlePositionUpdated" />
+    <SelectPlaces
+      v-if="isSelected"
+      @response-updated="handleResponseData"
+      :position="position"
+    />
     <MapRender
-      v-if="isSelectedSecond && responseData.length > 0"
+      v-if="responseData.length > 0"
       :position="position"
       :markers="responseData"
     />
@@ -47,11 +53,11 @@ export default defineComponent({
     },
     handlePositionUpdated(position: { latitude: number; longitude: number }) {
       this.position = position;
-      console.log("Position", position)
+      console.log("Position", position);
     },
     handleResponseData(data: ResponseObject[]) {
       this.responseData = data;
-      console.log("responseData", this.responseData)
+      console.log("responseData", this.responseData);
       this.isSelectedSecond = true;
     },
   },
