@@ -1,5 +1,6 @@
 <template>
   <div id="mapContainer" style="width: 100%; height: 400px"></div>
+  
 </template>
 
 <script lang="ts">
@@ -42,6 +43,12 @@ export default defineComponent({
         maxZoom: 18,
       }).addTo(map);
 
+       const userMarkerStyle = L.divIcon({
+        className: "user-marker-style",
+      });
+
+      const userMarker = L.marker([this.position.latitude, this.position.longitude], { icon: userMarkerStyle }).addTo(map).bindPopup("Here I am");
+
       this.markers.forEach((marker: ResponseObject) => {
          const { latitude, longitude } = marker.referencePosition;
         const markerPopupContent = `<b>${marker.name}</b>`;
@@ -55,4 +62,41 @@ export default defineComponent({
 </script>
 
 <style>
+.user-marker-style {
+  position: relative; 
+  background-color: red;
+  border-radius: 50%;
+  animation: background-animation 3s infinite; /* Animation for the marker background */
+}
+
+.user-marker-style::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 10px solid orange; 
+  border-radius: inherit; 
+  opacity: 0;
+  animation: border-animation 3s infinite;
+}
+
+ @keyframes background-animation {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes border-animation {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
 </style>
