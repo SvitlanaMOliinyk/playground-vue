@@ -1,6 +1,9 @@
 <template>
   <div class="app">
-    <button @click="handleClick" class="select-button">Choose location</button>
+    <button @click="handleClick" class="select-button">
+      <span v-if="!isSelected">Choose location</span>
+      <span v-else>Hide location</span>
+      </button>
     <StartMap
      v-if="!isSelectedSecond"
     @position-updated="handlePositionUpdated" />
@@ -63,3 +66,19 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+.select-button {
+  padding: 5px 10px;
+  background-color: gray;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px; 
+}
+
+.select-button:hover {
+  background-color: blue;
+}
+
+</style>

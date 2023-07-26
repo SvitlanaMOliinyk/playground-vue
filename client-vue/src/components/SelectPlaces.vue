@@ -70,4 +70,28 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style>
+#places {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+  width: 200px;
+  position: absolute;
+  top: 6vh; 
+  z-index: 1; 
+}
+
+#places option {
+  background-color: #fff;
+  color: #333;
+}
+
+#places option:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+</style>
