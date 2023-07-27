@@ -1,11 +1,12 @@
 <template>
-  <div id="mapContainer" style="width: 100%; height: 400px"></div>
-  
+  <div className="mapWrapper" @click.self="closeMap">
+    <div id="mapContainer" style="width: 100%; height: 400px"></div>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import L from 'leaflet';
+import L from "leaflet";
 
 interface ResponseObject {
   name: string;
@@ -36,34 +37,49 @@ export default defineComponent({
         [this.position.latitude, this.position.longitude],
         13
       );
-       console.log("RenderMap component")
+      console.log("RenderMap component");
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "Map data &copy; OpenStreetMap contributors",
         maxZoom: 18,
       }).addTo(map);
 
-       const userMarkerStyle = L.divIcon({
+      const userMarkerStyle = L.divIcon({
         className: "user-marker-style",
       });
 
-      const userMarker = L.marker([this.position.latitude, this.position.longitude], { icon: userMarkerStyle }).addTo(map).bindPopup("Here I am");
+      const userMarker = L.marker(
+        [this.position.latitude, this.position.longitude],
+        { icon: userMarkerStyle }
+      )
+        .addTo(map)
+        .bindPopup("Here I am");
 
       this.markers.forEach((marker: ResponseObject) => {
-         const { latitude, longitude } = marker.referencePosition;
+        const { latitude, longitude } = marker.referencePosition;
         const markerPopupContent = `<b>${marker.name}</b>`;
         L.marker([latitude, longitude])
           .addTo(map)
           .bindPopup(markerPopupContent);
       });
     },
+    closeMap() {
+      this.$emit("close");
+    },
   },
 });
 </script>
 
 <style>
+.mapWrapper {
+  max-width: 100%;
+  max-height: 80vh;
+  padding-top:15vh;
+  background-clip: padding-box; 
+}
+
 .user-marker-style {
-  position: relative; 
+  position: relative;
   background-color: red;
   border-radius: 50%;
   animation: background-animation 3s infinite; /* Animation for the marker background */
@@ -76,14 +92,15 @@ export default defineComponent({
   left: -5px;
   right: -5px;
   bottom: -5px;
-  border: 10px solid orange; 
-  border-radius: inherit; 
+  border: 10px solid orange;
+  border-radius: inherit;
   opacity: 0;
   animation: border-animation 3s infinite;
 }
 
- @keyframes background-animation {
-  0%, 100% {
+@keyframes background-animation {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -92,7 +109,8 @@ export default defineComponent({
 }
 
 @keyframes border-animation {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0;
   }
   50% {

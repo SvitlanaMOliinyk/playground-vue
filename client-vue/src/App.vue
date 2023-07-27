@@ -3,10 +3,11 @@
     <button @click="handleClick" class="select-button">
       <span v-if="!isSelected">Choose location</span>
       <span v-else>Hide location</span>
-      </button>
+    </button>
     <StartMap
-     v-if="!isSelectedSecond"
-    @position-updated="handlePositionUpdated" />
+      v-if="!isSelectedSecond || responseData.length <= 0"
+      @position-updated="handlePositionUpdated"
+    />
     <SelectPlaces
       v-if="isSelected"
       @response-updated="handleResponseData"
@@ -16,6 +17,7 @@
       v-if="responseData.length > 0"
       :position="position"
       :markers="responseData"
+      @close="handleCloseMap"
     />
   </div>
 </template>
@@ -63,6 +65,9 @@ export default defineComponent({
       console.log("responseData", this.responseData);
       this.isSelectedSecond = true;
     },
+    handleCloseMap() {
+      this.responseData = [];
+    },
   },
 });
 </script>
@@ -74,11 +79,10 @@ export default defineComponent({
   border: none;
   cursor: pointer;
   font-size: 12px;
-  border-radius: 4px; 
+  border-radius: 4px;
 }
 
 .select-button:hover {
   background-color: blue;
 }
-
 </style>
