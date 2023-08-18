@@ -1,13 +1,14 @@
 body {
-  background-color: aquamarine;
+  box-sizing: border-box;
   margin: 0;
-  
+  padding: 0;
+  background-color: whitesmoke;
 }
 
 #app{
-  margin: 2rem;
   max-width: 100%;
-  max-height: 100vh;
+  max-height: 100%;
+  
 }
 #map {
   height: 50vh;
