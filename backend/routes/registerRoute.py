@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
+from db import db
+from models.User import User
 import logging
 
 
-users = []
 
 register_user_bp = Blueprint('register_user', __name__)
 
@@ -15,14 +16,12 @@ def create_user():
             email = data.get("email")
             logging.debug(f"userName: {userName}, password: {password}, email: {email}")
         
-            newUser = {
-            "name": userName,
-            "password": password,
-            "email": email
-            }
-            logging.debug(f" newUser: { newUser}")
-            users.append(newUser)
-            print("Updated users list:", users)
+            new_user = User(name=userName, email=email, favorite_places=None)
+            new_user.set_password(password)
+        
+            db.session.add(new_user)
+            db.session.commit()
+            print(f"New user created: {new_user}")
             response_data = {"success": True}
             return jsonify(response_data), 200 
         except Exception as e:

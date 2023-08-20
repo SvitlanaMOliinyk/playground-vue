@@ -1,4 +1,5 @@
 .env
-.backend/__pycache__
-.backend/routes/__pycache__
-.myenv
+backend/__pycache__
+backend/routes/__pycache__
+myenv/
+instance/
