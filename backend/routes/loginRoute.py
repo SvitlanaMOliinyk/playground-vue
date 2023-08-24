@@ -19,8 +19,8 @@ def login():
         if user and user.check_password(password):
             session['user_id'] = user.id
             return jsonify({"message": "User authenticated",
-                             "user_id": user.id,
-                             "user_name": user.name}), 200
+                             "id": user.id,
+                             "name": user.name}), 200
         else:
             return jsonify({"message": "Invalid email or password"}), 401
     except Exception as e:
