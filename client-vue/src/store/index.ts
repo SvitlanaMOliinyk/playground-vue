@@ -72,8 +72,29 @@ const store = createStore({
         context.commit("setUser", null);
         context.commit("setLoggedIn", false);
       }
-    }
+    },
+
+    async checkAuthStatus (context) {
+      try {
+        const response = await fetch('http://localhost:5000/check', {
+          method: 'GET',
+          credentials: 'include',
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          context.commit('setUser', data);
+          context.commit('setLoggedIn', true);
+        } else {
+          context.commit("setUser", null);
+          context.commit("setLoggedIn", false);
+        }
+      } catch (error) {
+        throw new Error('User not authenticated');
+      }
+    },
   },
+  
 });
 
 export default store;

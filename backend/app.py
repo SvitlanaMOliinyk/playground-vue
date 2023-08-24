@@ -12,6 +12,7 @@ from routes.registerRoute import register_user_bp
 from routes.usersRoute import all_users_bp
 from routes.loginRoute import login_user_bp
 from routes.loginRoute import logout_user_bp
+from routes.authCheckRoute import auth_check_bp
 
 load_dotenv()
 app = Flask(__name__)
@@ -43,6 +44,7 @@ app.register_blueprint(register_user_bp)
 app.register_blueprint(all_users_bp)
 app.register_blueprint(login_user_bp)
 app.register_blueprint(logout_user_bp)
+app.register_blueprint(auth_check_bp)
 
 CORS(app, origins="http://localhost:8080", supports_credentials=True)
 
