@@ -1,12 +1,13 @@
 <template>
   <div class="container d-grid gap-3">
-    <form id="register-form" class="mb-3 mt-4" @submit.prevent>
-      <label for="name" class="form-label fw-bold">User Name</label>
+    <form id="login-form" class="mb-3 mt-4" @submit.prevent>
+      <label for="email" class="form-label fw-bold">Email</label>
       <input
-        type="text"
+        type="email"
         class="form-control mb-3"
-        id="name"
-        v-model="userName"
+        id="email"
+        v-model="email"
+        placeholder="name@example.com"
       />
       <label for="password" class="form-label fw-bold">Password</label>
       <input
@@ -16,28 +17,16 @@
         class="form-control"
         aria-describedby="passwordHelpBlock"
       />
-      <div id="passwordHelpBlock" class="form-text mb-3">
-        Your password must be 8-20 characters long, contain letters and numbers,
-        and must not contain spaces, special characters, or emoji.
-      </div>
-      <label for="email" class="form-label fw-bold">Email address</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        v-model="email"
-        placeholder="name@example.com"
-      />
     </form>
     <button
       type="submit"
-      form="register-form"
+      form="login-form"
       class="btn btn-secondary"
       @click="handleClick"
     >
-      Sign in
+      Log in
     </button>
-    <div v-if="error">{{ error }}</div>
+    <div v-if="error">{{error}}</div>
   </div>
 </template>
 
@@ -46,9 +35,8 @@ import { defineComponent, ref } from "vue";
 import router from "../router";
 import { useStore } from "vuex";
 export default defineComponent({
-  name: "RegisterUser",
+  name: "LoginUser",
   setup() {
-    const userName = ref("Enter your name");
     const password = ref("");
     const email = ref("");
     const error = ref(null);
@@ -56,8 +44,7 @@ export default defineComponent({
 
     const handleClick = async () => {
       try {
-        await store.dispatch("register", {
-          name: userName.value,
+        await store.dispatch("login", {
           password: password.value,
           email: email.value,
         });
@@ -68,11 +55,10 @@ export default defineComponent({
     };
 
     return {
-      userName,
       password,
       email,
       handleClick,
-      error,
+      error
     };
   },
 });

@@ -3,13 +3,24 @@ from db import init_db_and_tables
 import logging
 import sys
 from flask_cors import CORS
+import os
+from dotenv import load_dotenv
+
 
 from routes.places import places_bp
 from routes.registerRoute import register_user_bp
 from routes.usersRoute import all_users_bp
+from routes.loginRoute import login_user_bp
+from routes.loginRoute import logout_user_bp
 
-
+load_dotenv()
 app = Flask(__name__)
+secret_key = os.environ.get('FLASK_SECRET_KEY')
+
+if secret_key is None:
+    raise ValueError("FLASK_SECRET_KEY environment variable is not set")
+
+app.config['SECRET_KEY'] = secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 
 logging.basicConfig(
@@ -30,6 +41,8 @@ app.register_blueprint(home_bp)
 app.register_blueprint(places_bp)
 app.register_blueprint(register_user_bp)
 app.register_blueprint(all_users_bp)
+app.register_blueprint(login_user_bp)
+app.register_blueprint(logout_user_bp)
 
 CORS(app, origins="http://localhost:8080", supports_credentials=True)
 
